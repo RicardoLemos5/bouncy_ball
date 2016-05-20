@@ -22,6 +22,8 @@ var radius = 1;
 
 var testX = false;
 var testY = false;
+var randomSpeed = true;
+var radomColor = true;
 
 function loop(){
     setTimeout(function(){
@@ -68,13 +70,18 @@ function loop(){
 }
 
 function auto(){
-    randX = Math.floor((Math.random() * speed) + 1);
-    randY = Math.floor((Math.random() * speed) + 1);
-    if(testX) randX = -randX;
-    if(testY) randY = -randY;
-    r = Math.floor((Math.random() * 255) + 1);
-    g = Math.floor((Math.random() * 255) + 1);
-    b = Math.floor((Math.random() * 255) + 1);
-    color = "rgb(" + r +"," + g + "," + b + ")";
+    if(randomSpeed){
+        randX = Math.floor((Math.random() * speed) + 1);
+        randY = Math.floor((Math.random() * speed) + 1);
+        if(testX) randX = -randX;
+        if(testY) randY = -randY;
+    }
+    
+    if(randomColor){
+        r = Math.floor((Math.random() * 255) + 1);
+        g = Math.floor((Math.random() * 255) + 1);
+        b = Math.floor((Math.random() * 255) + 1);
+        color = "rgb(" + r +"," + g + "," + b + ")";
+    }
     setTimeout(auto, 1000);
 }
