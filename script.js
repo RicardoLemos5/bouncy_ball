@@ -31,7 +31,7 @@ function Ball(){
     this.textX = false;
     this.textY = false;
     this.randSpeed = true;
-    this.randColor = true;
+    this.randColor = false;
 }
 
 Ball.prototype.update = function() {
