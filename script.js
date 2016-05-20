@@ -1,7 +1,7 @@
 var canvas, ctx;
 var fps = 60;
 var balls = [];
-var numberOfBalls = 100;
+var numberOfBalls = 40;
 window.onload = function(){
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
