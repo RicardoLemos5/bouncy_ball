@@ -1,81 +1,111 @@
 var canvas, ctx;
 var fps = 60;
+var balls = [];
+var numberOfBalls = 100;
 window.onload = function(){
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
-    auto();
+    for(i = 0; i < numberOfBalls; i++){
+        balls.push(new Ball());
+        balls[i].interval();
+    }
     loop();
 };
-var r, g, b;
-var color;
+
 var width = 800;
 var height = 600;
-var size = 50;
-var speed = 10;
 
-var x = size;
-var y = size;
-var randX = 0;
-var randY = 0;
-var radius = 1;
+function Ball(){
+    this.color = this.randomColor();
+    this.size = 50;
+    this.speed = 10;
+    this.x = this.size;
+    this.y = this.size;
+    this.randX = 0;
+    this.randY = 0;
+    this.radius = 1;
+    this.textX = false;
+    this.textY = false;
+    this.randSpeed = true;
+    this.randColor = true;
+}
 
-var testX = false;
-var testY = false;
+Ball.prototype.update = function() {
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.arc(this.x, this.y, this.size, 0, 2*Math.PI);
+    ctx.fill();
+    
+    this.x += this.randX;
+    this.y += this.randY;
+    this.size += this.radius;
+    
+    if(this.x >= width - this.size){
+        this.x = width - this.size;
+        this.randX = -this.randX
+        this.testX = true;
+    }else if(this.x <= this.size){
+        this.x = this.size;
+        this.randX = -this.randX;
+        this.testX = false;
+    }
+    
+    if(this.y >= height - this.size){
+        this.y = height - this.size;
+        this.randY = -this.randY;
+        this.testY = true;
+    }else if(this.y <= this.size){
+        this.y = this.size;
+        this.randY = -this.randY;
+        this.testY = false;
+    }
+    
+    this.updateSize();
+};
+
+Ball.prototype.updateSize = function() {
+    if(this.size >= 100){
+        this.radius = -this.radius;
+    }else if(this.size <= 5){
+        this.radius = -this.radius;
+    }
+};
+
+Ball.prototype.interval = function(){
+    if(this.randSpeed){
+        this.randomSpeed();
+    }
+    if(this.randColor){
+        this.randomColor();
+    }
+    setTimeout(this.interval, 1000);
+};
+
+Ball.prototype.randomSpeed = function(){
+    this.randX = Math.floor((Math.random() * this.speed) + 1);
+    this.randY = Math.floor((Math.random() * this.speed) + 1);
+    if(this.testX) this.randX = -this.randX;
+    if(this.testY) this.randY = -this.randY;
+};
+
+Ball.prototype.randomColor = function(){
+    var r = Math.floor((Math.random() * 255) + 1);
+    var g = Math.floor((Math.random() * 255) + 1);
+    var b = Math.floor((Math.random() * 255) + 1);
+    return this.color = "rgb(" + r +"," + g + "," + b + ")";
+};
 
 function loop(){
     setTimeout(function(){
         ctx.fillStyle = "#000";
         ctx.rect(0, 0, width, height);
         ctx.fill();
-        ctx.beginPath();
-        ctx.fillStyle = color;
-        ctx.arc(x, y, size, 0, 2*Math.PI);
-        ctx.fill();
         
-        x += randX;
-        y += randY;
-        size += radius;
-        
-        if(x >= width - size){
-            x = width - size;
-            randX = -randX
-            testX = true;
-        }else if(x <= size){
-            x = size;
-            randX = -randX;
-            testX = false;
-        }
-        
-        if(y >= height - size){
-            y = height - size;
-            randY = -randY;
-            testY = true;
-        }else if(y <= size){
-            y = size;
-            randY = -randY;
-            testY = false;
-        }
-        
-        if(size >= 100){
-            radius = -radius;
-        }else if(size <= 5){
-            radius = -radius;
+        for(i = 0; i < numberOfBalls; i++){
+            balls[i].update();
         }
         
         loop();
     }, 1000/fps);
-}
-
-function auto(){
-    randX = Math.floor((Math.random() * speed) + 1);
-    randY = Math.floor((Math.random() * speed) + 1);
-    if(testX) randX = -randX;
-    if(testY) randY = -randY;
-    
-    r = Math.floor((Math.random() * 255) + 1);
-    g = Math.floor((Math.random() * 255) + 1);
-    b = Math.floor((Math.random() * 255) + 1);
-    color = "rgb(" + r +"," + g + "," + b + ")";
-    setTimeout(auto, 1000);
 }
