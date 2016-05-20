@@ -9,6 +9,7 @@ window.onload = function(){
     for(i = 0; i < numberOfBalls; i++){
         balls.push(new Ball());
     }
+    interval();
     loop();
 };
 
@@ -18,12 +19,15 @@ var height = 600;
 function Ball(){
     this.color = this.randomColor();
     this.size = 50;
-    this.speed = 10;
-    this.x = this.size;
-    this.y = this.size;
+    this.speed = 5;
+    this.x = Math.floor((Math.random() * (width - this.size)) + this.size);
+    this.y = Math.floor((Math.random() * (height - this.size)) + this.size);
+    this.minSize = 10;
+    this.maxSize = 80;
     this.randX = 0;
     this.randY = 0;
-    this.radius = 1;
+    this.randomSpeed();
+    this.radius = Math.floor((Math.random() * 2));
     this.textX = false;
     this.textY = false;
     this.randSpeed = true;
@@ -64,21 +68,25 @@ Ball.prototype.update = function() {
 };
 
 Ball.prototype.updateSize = function() {
-    if(this.size >= 100){
+    if(this.size >= this.maxSize){
         this.radius = -this.radius;
-    }else if(this.size <= 5){
+    }else if(this.size <= this.minSize){
         this.radius = -this.radius;
     }
 };
 
-Ball.prototype.interval = function(){
-    if(this.randSpeed){
-        this.randomSpeed();
-    }
-    if(this.randColor){
-        this.randomColor();
-    }
-    setTimeout(this.interval, 1000);
+function interval(){
+    setTimeout(function(){
+        for(i = 0; i < numberOfBalls; i++){
+            if(balls[i].randSpeed){
+                balls[i].randomSpeed();
+            }
+            if(balls[i].randColor){
+                balls[i].randomColor();
+            }
+        }
+        interval();
+    }, 1000);
 };
 
 Ball.prototype.randomSpeed = function(){
@@ -103,7 +111,6 @@ function loop(){
         
         for(i = 0; i < numberOfBalls; i++){
             balls[i].update();
-            balls[i].interval();
         }
         
         loop();
