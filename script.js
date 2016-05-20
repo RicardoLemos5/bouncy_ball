@@ -8,7 +8,6 @@ window.onload = function(){
 
     for(i = 0; i < numberOfBalls; i++){
         balls.push(new Ball());
-        balls[i].interval();
     }
     loop();
 };
@@ -104,6 +103,7 @@ function loop(){
         
         for(i = 0; i < numberOfBalls; i++){
             balls[i].update();
+            balls[i].interval();
         }
         
         loop();
