@@ -103,11 +103,15 @@ Ball.prototype.randomColor = function(){
     return this.color = "rgb(" + r +"," + g + "," + b + ")";
 };
 
+function clearCanvas(){
+    ctx.fillStyle = "#000";
+    ctx.rect(0, 0, width, height);
+    ctx.fill();
+}
+
 function loop(){
     setTimeout(function(){
-        ctx.fillStyle = "#000";
-        ctx.rect(0, 0, width, height);
-        ctx.fill();
+        clearCanvas();
         
         for(i = 0; i < numberOfBalls; i++){
             balls[i].update();
