@@ -16,22 +16,22 @@ var height = 600;
 
 var balls = [];
 var numberOfBalls = 40;
+var speed = 5;
+var minSize = 10;
+var maxSize = 80;
+var randSpeed = true;
+var randColor = false;
 function Ball(){
     this.color = this.randomColor();
     this.size = 50;
-    this.speed = 5;
     this.x = Math.floor((Math.random() * (width - this.size)) + this.size);
     this.y = Math.floor((Math.random() * (height - this.size)) + this.size);
-    this.minSize = 10;
-    this.maxSize = 80;
     this.randX = 0;
     this.randY = 0;
     this.randomSpeed();
     this.radius = Math.floor((Math.random() * 2));
     this.textX = false;
     this.textY = false;
-    this.randSpeed = true;
-    this.randColor = false;
 }
 
 Ball.prototype.update = function() {
@@ -69,9 +69,9 @@ Ball.prototype.update = function() {
 };
 
 Ball.prototype.updateSize = function() {
-    if(this.size >= this.maxSize){
+    if(this.size >= maxSize){
         this.radius = -this.radius;
-    }else if(this.size <= this.minSize){
+    }else if(this.size <= minSize){
         this.radius = -this.radius;
     }
 };
@@ -79,10 +79,10 @@ Ball.prototype.updateSize = function() {
 function interval(){
     setTimeout(function(){
         for(i = 0; i < numberOfBalls; i++){
-            if(balls[i].randSpeed){
+            if(randSpeed){
                 balls[i].randomSpeed();
             }
-            if(balls[i].randColor){
+            if(randColor){
                 balls[i].randomColor();
             }
         }
@@ -91,8 +91,8 @@ function interval(){
 };
 
 Ball.prototype.randomSpeed = function(){
-    this.randX = Math.floor((Math.random() * this.speed) + 1);
-    this.randY = Math.floor((Math.random() * this.speed) + 1);
+    this.randX = Math.floor((Math.random() * speed) + 1);
+    this.randY = Math.floor((Math.random() * speed) + 1);
     if(this.testX) this.randX = -this.randX;
     if(this.testY) this.randY = -this.randY;
 };
