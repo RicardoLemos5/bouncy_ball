@@ -23,7 +23,7 @@ var radius = 1;
 var testX = false;
 var testY = false;
 var randomSpeed = true;
-var radomColor = true;
+var randomColor = true;
 
 function loop(){
     setTimeout(function(){
