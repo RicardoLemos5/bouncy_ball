@@ -11,8 +11,8 @@ window.onload = function(){
     loop();
 };
 
-var width = 800;
-var height = 600;
+var width = 1360;
+var height = 768;
 
 var balls = [];
 var numberOfBalls = 40;
